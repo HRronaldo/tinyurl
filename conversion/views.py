@@ -1,9 +1,8 @@
 import json
 
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import timezone
-
 
 from .models import Long2Short
 from .my_func import generate_short_key
@@ -64,3 +63,13 @@ def long_2_short(request):
     response["Access-Control-Allow-Headers"] = "*"
 
     return response
+
+
+def short_2_long(request, short_key):
+    row = Long2Short.objects.get(short_key=short_key)
+    long_url = row.long_url
+    row.visit_sum += 1
+    row.modified_data = timezone.now()
+    row.save()
+
+    return HttpResponseRedirect(long_url)
