@@ -12,7 +12,7 @@ TinyurlDOMIAN = 'http://192.168.33.11:8080'
 
 
 def index(request):
-    return HttpResponse("This is an index")
+    return render(request, 'conversion/index.html')
 
 
 def long_2_short(request):
