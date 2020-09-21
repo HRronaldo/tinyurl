@@ -1,7 +1,7 @@
 import json
 
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 from django.utils import timezone
 from django.core.cache import cache
 
@@ -119,4 +119,4 @@ def short_2_long(request, short_key):
         # 更新缓存
         cache.set(short_key, long_url, timeout=60 * 60 * 24)
 
-        return HttpResponseRedirect(long_url)
+        return HttpResponsePermanentRedirect(long_url)
