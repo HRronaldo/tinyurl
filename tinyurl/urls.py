@@ -20,4 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('tinyurl/', include('conversion.urls')),
+    path('url_info/', include('url_info.urls')),
 ]
