@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.core.cache import cache
 
 from .models import Long2Short
-from .my_func import generate_short_key
+from .my_func import generate_short_key, ratelimit
 
 TinyurlDOMIAN = 'http://192.168.33.11:8080'
 
@@ -15,28 +15,20 @@ def index(request):
     return render(request, 'conversion/index.html')
 
 
+@ratelimit
 def long_2_short(request):
-    url_dict = json.loads(request.body)
-    url = url_dict['url']
-    # host = request.headers['Referer']
-    host = "192.168.33.11"
-
-    count = cache.get(host)
-    if count is None:
-        count = 0
-
-    # 判断这个 Ip 是否在操作很频繁
-    if count >= 3:
+    try:
+        host = request.headers['Referer']
+        url_dict = json.loads(request.body)
+        url = url_dict['url']
+    except Exception:
         res = {
-            "url": "The operation is too frequent, please try again later"
+            "url": "No parameters requested"
         }
 
         response = HttpResponse(json.dumps(res))
 
         return response
-    else:
-        count += 1
-        cache.set(host, count, timeout=5)
 
     # 判断 url 是长链接还是短链接
     if TinyurlDOMIAN in url:
