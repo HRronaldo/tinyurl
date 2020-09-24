@@ -17,4 +17,15 @@ class Long2Short(models.Model):
         return content
 
 
+class Long2ShortV2(models.Model):
+    long_url = models.CharField(max_length=1000)
+    create_date = models.DateTimeField("date create")
+    ip_address = models.CharField(max_length=100, null=True)
+
+    def __str__(self):
+        content = """
+                long_url: {} 
+            """.format(self.long_url)
+
+        return content
 
