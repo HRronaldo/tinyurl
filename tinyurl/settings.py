@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'conversion.apps.ConversionConfig',
     'corsheaders',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -174,3 +175,14 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
     'Pragma',
 ]
+
+
+# REST
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

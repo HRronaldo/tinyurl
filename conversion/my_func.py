@@ -20,16 +20,16 @@ def ratelimit(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         try:
-            host = args[0].headers['Referer']
+            ip_address = args[0].headers['Referer']
         except Exception:
             return func(*args, **kwargs)
 
-        count = cache.get(host)
+        count = cache.get(ip_address)
         if count is None:
             count = 0
 
-        # 判断这个 Ip 是否在操作很频繁
-        if count >= 3:
+        # 5秒最多访问5次
+        if count >= 5:
             res = {
                 "url": "The operation is too frequent, please try again later"
             }
@@ -39,7 +39,7 @@ def ratelimit(func):
             return response
         else:
             count += 1
-            cache.set(host, count, timeout=5)
+            cache.set(ip_address, count, timeout=5)
 
         return func(*args, **kwargs)
     return wrapper

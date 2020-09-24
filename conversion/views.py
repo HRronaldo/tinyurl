@@ -18,14 +18,12 @@ def index(request):
 @ratelimit
 def long_2_short(request):
     try:
-        host = request.headers['Referer']
-        url_dict = json.loads(request.body)
-        url = url_dict['url']
+        ip_address = request.headers['Referer']
+        url = json.loads(request.body)['url']
     except Exception:
         res = {
             "url": "No parameters requested"
         }
-
         response = HttpResponse(json.dumps(res))
 
         return response
@@ -35,7 +33,6 @@ def long_2_short(request):
         res = {
             "url": "Please enter long url"
         }
-
         response = HttpResponse(json.dumps(res))
 
         return response
@@ -48,7 +45,6 @@ def long_2_short(request):
         res = {
             "url": short_url
         }
-
         response = HttpResponse(json.dumps(res))
 
         return response
@@ -65,7 +61,7 @@ def long_2_short(request):
         long_url=long_url,
         short_key=short_key,
         create_date=timezone.now(),
-        ip_address=host,
+        ip_address=ip_address,
     )
     lst.save()
 
@@ -78,7 +74,6 @@ def long_2_short(request):
     res = {
         "url": short_url
     }
-
     response = HttpResponse(json.dumps(res))
 
     return response
