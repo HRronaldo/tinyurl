@@ -186,3 +186,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+
+# Domain
+
+TinyurlDOMIAN = 'http://192.168.33.11:8080'

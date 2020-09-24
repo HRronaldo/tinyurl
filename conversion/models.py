@@ -1,16 +1,18 @@
 from django.db import models
 
+from tinyurl.settings import TinyurlDOMIAN
+
 
 class Long2Short(models.Model):
-    long_url = models.CharField(max_length=2000)
-    short_key = models.CharField(max_length=50)
+    long_url = models.CharField(max_length=1000)
+    short_key = models.CharField(max_length=10, db_index=True, unique=True)
     create_date = models.DateTimeField("date create")
     ip_address = models.CharField(max_length=100, null=True)
 
     def __str__(self):
         content = """
-            long_url: {} ==> short_url: https://192.168.33.10:8080/tinyurl/{}
-        """.format(self.long_url, self.short_key)
+            long_url: {} ==> short_url: {}/tinyurl/{}
+        """.format(self.long_url, TinyurlDOMIAN, self.short_key)
 
         return content
 
